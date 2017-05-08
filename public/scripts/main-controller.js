@@ -1,12 +1,17 @@
 'use strict';
 
 angular.module('app').controller('mainController', function ($scope, $log, $http) {
-		$scope.pno = undefined;
+		$scope.data = {
+			pno: undefined,
+			status: 'Not authenticated.'
+		};
 
 		$scope.authenticate = function () {
-			$http.post('/api/authenticate', {pno: $scope.pno}).then(
+			$http.post('/api/authenticate', {pno: $scope.data.pno}).then(
 				function (res) {
-					$log.info(res);
+					if(res.data.success) {
+						$scope.data.status = 'Successfully authenticated.';
+					}
 				},
 				function (err) {
 					$log.info(err);
